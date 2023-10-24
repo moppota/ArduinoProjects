@@ -1,3 +1,4 @@
+// Code to make a joystick control digits on a seven segment display, along with the colour of an RGB LED
 #define VRX_PIN A1
 #define VRY_PIN A0
 #include "SevSeg.h"

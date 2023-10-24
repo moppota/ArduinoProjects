@@ -1,0 +1,33 @@
+// code to connect a joystick with a servo motor and move the servo motor depending on x position of joystick
+#define VRX_PIN A0
+#define VRY_PIN A1
+#define buttonPin 13
+#include "Servo.h"
+Servo servoone; // create servo object
+
+int xValue = 0;
+int yValue = 0;
+int ServoValue = 0;
+
+
+
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(buttonPin, INPUT_PULLUP); //pullup switch 
+  servoone.attach(31);
+}
+
+void loop() {
+  xValue = analogRead(VRX_PIN);
+  yValue = analogRead(VRY_PIN);
+  ServoValue = map(xValue, 0, 1023, 0, 180); // turn analog values of X to a number between 0 and 180 (servo range)
+  if(ServoValue > 180) {ServoValue = 180;}
+  if(ServoValue < 0) {ServoValue = 0;} // crude way to not break the servo
+  servoone.write(ServoValue);
+  if(digitalRead(buttonPin) == LOW) {
+    ServoValue = 0;
+    servoone.write(0);
+    delay(1000); // way to reset position, after 1 second will return to joystick position
+  }
+}
